@@ -58,7 +58,7 @@ counters.
 For running this step code just execute the command:
 
 ```bash
-cd elm-mini-spa-step3
+cd elm-mini-spa-step6
 elm-live -- src/Main.elm
 ```
 
