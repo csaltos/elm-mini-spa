@@ -64,7 +64,7 @@ init flags _ navigationKey =
 
 view : Model -> Browser.Document Msg
 view model =
-    { title = "Elm mini SPA (step 2)"
+    { title = "Elm mini SPA (step 5)"
     , body = [ viewTopBar model.globalCounter, viewBody model ]
     }
 
@@ -78,7 +78,7 @@ viewTopBar globalCounter =
         ]
         [ Html.a [ Html.Attributes.href "/page1.html" ] [ Html.text "Page 1" ]
         , Html.text ("Global counter " ++ String.fromInt globalCounter)
-        , Html.a [ Html.Attributes.href "https://csaltos.com/buy-me-a-coffee" ] [ Html.text "Buy me a coffee" ]
+        , Html.a [ Html.Attributes.href "https://csaltos.com/tech-blog/buy-me-a-coffee.html" ] [ Html.text "Buy me a coffee" ]
         , Html.a [ Html.Attributes.href "/page2.html" ] [ Html.text "Page 2" ]
         ]
 

@@ -7,19 +7,16 @@ import Html
 import Html.Attributes
 import Page1
 import Page2
+import Route
 import Url
-
-
-type Route
-    = Page1Route
-    | Page2Route
 
 
 type alias Model =
     { page1Model : Page1.Model
     , page2Model : Page2.Model
     , globalCounter : Int
-    , currentRoute : Route
+    , currentRoute : Route.Route
+    , navigationKey : Browser.Navigation.Key
     }
 
 
@@ -43,7 +40,7 @@ main =
 
 
 init : () -> Url.Url -> Browser.Navigation.Key -> ( Model, Cmd Msg )
-init flags _ _ =
+init flags url navigationKey =
     let
         ( page1Model, page1Cmd ) =
             Page1.init flags
@@ -54,7 +51,8 @@ init flags _ _ =
     ( { page1Model = page1Model
       , page2Model = page2Model
       , globalCounter = 0
-      , currentRoute = Page1Route
+      , currentRoute = Route.fromUrl url
+      , navigationKey = navigationKey
       }
     , Cmd.batch [ Cmd.map Page1Msg page1Cmd, Cmd.map Page2Msg page2Cmd ]
     )
@@ -62,7 +60,7 @@ init flags _ _ =
 
 view : Model -> Browser.Document Msg
 view model =
-    { title = "Elm mini SPA (step 3)"
+    { title = "Elm mini SPA (step 6)"
     , body = [ viewTopBar model.globalCounter, viewBody model ]
     }
 
@@ -74,23 +72,24 @@ viewTopBar globalCounter =
         , Html.Attributes.style "justify-content" "space-around"
         , Html.Attributes.style "padding" "24px"
         ]
-        [ Html.a [ Html.Attributes.href "/page1.html" ] [ Html.text "Page 1" ]
+        [ Html.a [ Html.Attributes.href (Route.path Route.Page1Route) ] [ Html.text "Page 1" ]
         , Html.text ("Global counter " ++ String.fromInt globalCounter)
-        , Html.a [ Html.Attributes.href "/page2.html" ] [ Html.text "Page 2" ]
+        , Html.a [ Html.Attributes.href "https://csaltos.com/tech-blog/buy-me-a-coffee.html" ] [ Html.text "Buy me a coffee" ]
+        , Html.a [ Html.Attributes.href (Route.path Route.Page2Route) ] [ Html.text "Page 2" ]
         ]
 
 
 viewBody : Model -> Html.Html Msg
 viewBody model =
     case model.currentRoute of
-        Page1Route ->
+        Route.Page1Route ->
             let
                 page1View =
                     Page1.viewBody model.page1Model
             in
             Html.map Page1Msg page1View
 
-        Page2Route ->
+        Route.Page2Route ->
             let
                 page2View =
                     Page2.viewBody model.page2Model
@@ -127,14 +126,19 @@ update msg model =
         UrlRequestedMsg urlRequested ->
             case urlRequested of
                 Browser.Internal url ->
-                    if String.startsWith "/page1.html" url.path then
-                        ( { model | currentRoute = Page1Route }, Cmd.none )
+                    case Route.fromUrl url of
+                        Route.Page1Route ->
+                            ( { model | currentRoute = Route.Page1Route }
+                            , Browser.Navigation.pushUrl model.navigationKey (Url.toString url)
+                            )
 
-                    else
-                        ( { model | currentRoute = Page2Route }, Cmd.none )
+                        Route.Page2Route ->
+                            ( { model | currentRoute = Route.Page2Route }
+                            , Browser.Navigation.pushUrl model.navigationKey (Url.toString url)
+                            )
 
-                Browser.External _ ->
-                    ( model, Cmd.none )
+                Browser.External url ->
+                    ( model, Browser.Navigation.load url )
 
 
 doAction : Action.Action -> Model -> Model

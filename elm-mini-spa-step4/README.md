@@ -1,4 +1,4 @@
-# Elm mini SPA (step 3)
+# Elm mini SPA (step 4)
 
 ## What?
 
@@ -30,6 +30,7 @@ The full steps are:
 - **Step3:** Support for global shared data ([code](https://github.com/csaltos/elm-mini-spa/blob/main/elm-mini-spa-step3))
 - **Step4:** Make the illusion real ([code](https://github.com/csaltos/elm-mini-spa/blob/main/elm-mini-spa-step4))
 - **Step5:** Making the web server happy ([code](https://github.com/csaltos/elm-mini-spa/blob/main/elm-mini-spa-step5))
+- **Step6:** Adding a magical router ([code](https://github.com/csaltos/elm-mini-spa/blob/main/elm-mini-spa-step6))
 
 > **IMPORTANT:** This is only one way to provide SPA support for Elm, you do not
 > need to implement new projects following exactly this code, please use it only

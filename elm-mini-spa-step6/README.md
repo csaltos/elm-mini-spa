@@ -1,37 +1,39 @@
-# Elm mini SPA (step 5)
+# Elm mini SPA (step 6)
 
 ## What?
 
-This is the sixth step on creating a simple Elm web application using the
+This is the seventh step on creating a simple Elm web application using the
 Single-page Application architecture.
 
-At this step we are trying to fix the 404 not found pages when the user hits the
-reload button and for that we need to tell the web server where to find this
-pages.
+At this step we will add a module called `Route.elm` for better using multiple
+pages path routes.
 
-There are several ways to patch this web server requests, the idea is to create
-an alias from the original Elm web application to every new page we add.
+You can use several different kind of routes and even create your own manually
+but we are here presenting a magical router developed by
+[Simon Lydell](https://github.com/lydell/) at
+[elm-app-url](https://package.elm-lang.org/packages/lydell/elm-app-url/latest/)
 
-One way to do it is with simple file aliases using soft links but you can also
-use rewrite rules with an nginx or HA-Proxy server or even templates with the
-support of a Laravel or Ruby on rails server.
-
-For our sample code we just added aliases using soft link, this aliases files
-`page1.html` and `page2.html` are already created and pointing to `index.html`
-but you can also create them your self with these commands:
+For using `elm-app-url` you may install it with the command:
 
 ```bash
-ln -s index.html page1.html
-ln -s index.html page2.html
+elm install lydell/elm-app-url
 ```
 
-These will only on Linux, Mac and any other real Unix operating system, for
-Windows you can create copies of the `index.html` file into `page1.html` and
-`page2.html` or also try to use WSL.
+Then move all the routes created at `Main.elm` to a new module called
+`Route.elm` and add helper functions to locate the routes and use them from the
+`Main.elm` module.
 
-Now play a little bit with the code and navigation, try to remove the alias
-files, use the browser reload button, add the aliases again and even try to add
-new pages like a page for `/about.html`.
+That's it, now you have a solid router to handle your Elm web application, of
+course with just two pages there is no need for an explicit router but for real
+massive multipages applications a router is a life saver.
+
+More info about `elm-app-url` may be found at [Elm Radio Episode 077: elm-app-url with Simon Lydell](https://elm-radio.com/episode/elm-app-url/).
+
+Congratulations !! ... You have created an Elm SPA application, rather simple
+but it can work as a fundation real Elm web multipages applications like the
+ones we use at [Talenteca](https://www.talenteca.com/empleos) using Elm and
+[elm-ui](https://korban.net/elm/elm-ui-guide/), just please remember to used only as a reference and adapt it to your
+own projects requirements.
 
 The full steps are:
 
